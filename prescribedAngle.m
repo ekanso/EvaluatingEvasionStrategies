@@ -1,4 +1,4 @@
-function [alpha1,alpha2,Dalpha1,Dalpha2] = prescribedAngle(time,act_mode,ii)
+function [alpha1,alpha2,Dalpha1,Dalpha2] = prescribedAngle(time,act_mode,aa,bb)
 % theta1 = 0;
 % theta2 = 0;
 % Dtheta1 = 0;
@@ -60,22 +60,15 @@ switch act_mode
         alpha2 = alpha2/180*pi;
         Dalpha2 = Dalpha2/180*pi;
     case 'CStartFamily'
-        assert(nargin == 3,'argument of axis length needed')
-        aa = sign(ii)*0.2+ii/4;
-        bb = ii;
+        assert(nargin == 4,'argument of axis length needed')
+
         phi = 3*pi/4;
-        if bb>=0
-            time = time+ll;
+
             alpha1 =  cos(phi)*cos(time+pi/2)*aa - sin(phi)*sin(time+pi/2)*bb + sqrt(2)*bb/2;
             alpha2 =  sin(phi)*cos(time+pi/2)*aa + cos(phi)*sin(time+pi/2)*bb + sqrt(2)*bb/2;
             Dalpha1 = -cos(phi)*sin(time+pi/2)*aa - sin(phi)*cos(time+pi/2)*bb;
             Dalpha2 = -sin(phi)*sin(time+pi/2)*aa + cos(phi)*cos(time+pi/2)*bb;
-        else
-            alpha1 =  cos(phi)*cos(-time+pi/2)*aa - sin(phi)*sin(-time+pi/2)*bb + sqrt(2)*bb/2;
-            alpha2 =  sin(phi)*cos(-time+pi/2)*aa + cos(phi)*sin(-time+pi/2)*bb + sqrt(2)*bb/2;
-            Dalpha1 = cos(phi)*sin(-time+pi/2)*aa + sin(phi)*cos(-time+pi/2)*bb;
-            Dalpha2 = sin(phi)*sin(-time+pi/2)*aa - cos(phi)*cos(-time+pi/2)*bb;
-        end
+        
     otherwise
         warning('unknown activation mode')
 end
